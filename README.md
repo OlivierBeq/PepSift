@@ -13,9 +13,9 @@ pip install pepsift
 
 ## Usage
 
-First instantiate a `PepSift` by defining a level of filtering.
+`PepSift` relies on multiple criteria defining different types od amino acids and polymers thereof.
 
-There are currently 5 different levels available:
+There are currently 5 different levels available from most to least stringent:
 
 | level                                      | description                                                       | comment                                                                                                                                                                             |
 |--------------------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -23,12 +23,12 @@ There are currently 5 different levels available:
 | `SiftLevel.NaturalLDAminoAcids`            | natural L- and D-amino acid and peptides thereof                  | e.g. identify L-Alanine or the sequences `D-A L-W`, `L-H D-Q`,   `D-M D-K` <br/><img src="images/D-Ala.png" alt="D-Ala" width=200>                                                  |
 | `SiftLevel.NaturalAminoAcidDerivatives`    | derivatives of natural L- and D-amino acid and peptides   thereof | i.e. any compound containing a canonical amino acid/peptide backbone <br/><img src="images/AA.png" alt="AA" width=200>                                                              |
 | `SiftLevel.NonNaturalAminoAcidDerivatives` | non-natural amino acid derivatives and peptides thereof           | e.g. identify beta-homo-alanine or alpha-methyl-Tyr <br/><img src="images/beta-homo-Ala.png" alt="BH-Ala" width=200> <img src="images/alpha-methyl-Tyr.png" alt="AM-Tyr" width=200> |
-| `SiftLevel.AllAmineAndAcid`                | compounds containing amine and carboxylic acid moeities           | e.g. 3-[3-(2-Aminoethyl)cyclohexyl]propionic acid <br/><img src="images/5N1NAPHT.png" alt="5N1NAPHT" width=200>                                                                     |
+| `SiftLevel.AllAmineAndAcid`                | compounds containing amine and carboxylic acid moieties           | e.g. 3-[3-(2-Aminoethyl)cyclohexyl]propionic acid <br/><img src="images/5N1NAPHT.png" alt="5N1NAPHT" width=200>                                                                     |
 
 These levels allow for granular selection of different types amino acids/peptides.
 
 <br/>
-Let's instantiate a sift for each level to see the difference:
+The decreasing stringency of `SiftLevel` criteria is exemplified below.
 
 ```python
 from pepsift import PepSift, SiftLevel
@@ -71,5 +71,7 @@ for mol in mols:
 # Benzene
 # (False, False, False, False, False)
 ```
+
+
 
 :warning: Any peptide containing a natural amino acid is considered a derivative of natural amino acids (even if it also contains non natural amino acids)
