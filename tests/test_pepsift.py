@@ -164,3 +164,31 @@ class TestPepSift(unittest.TestCase):
     def test_not_amino_acid(self):
         self.assertEqual([PepSift(level).is_peptide(MOLECULES['NAPHT']) for level in SiftLevel],
                          [False, False, False, False, False])
+
+    def test_pepsift_natural_aa_nostereo(self):
+        for aa_name, aa in self.l_amino_acids.items():
+            if aa_name != 'Gly':
+                print(aa_name)
+                Chem.RemoveStereochemistry(aa)
+                self.assertEqual([PepSift(level).is_peptide(aa) for level in SiftLevel],
+                                 [False, True, True, True, True])
+
+    def test_beta_homo_aa_nostereo(self):
+        for aa_name, aa in LBHOMO_AA.items():
+            print(aa_name)
+            Chem.RemoveStereochemistry(aa)
+            self.assertEqual([PepSift(level).is_peptide(aa) for level in SiftLevel],
+                             [False, False, False, True, True])
+
+    def test_alpha_methyl_aa_nostereo(self):
+        for aa_name, aa in AMHETYL_AA.items():
+            print(aa_name)
+            Chem.RemoveStereochemistry(aa)
+            self.assertEqual([PepSift(level).is_peptide(aa) for level in SiftLevel],
+                             [False, False, False, True, True])
+
+    def test_additional_aa(self):
+        for aa_name, aa in ADDITIONAL_AA.items():
+            print(aa_name)
+            self.assertTrue(any([PepSift(level).is_peptide(aa)
+                                 for level in SiftLevel]))
