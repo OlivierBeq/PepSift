@@ -46,7 +46,7 @@ mols = [Chem.MolFromSmiles('C[C@@H](C(=O)O)N'),  # L-Ala
         Chem.MolFromSmiles('C[C@@H](CN)C(=O)O'), # Beta-homo-Ala
         Chem.MolFromSmiles('CC(C)(C(=O)O)N'),    # Alpha-methyl-Ala
         Chem.MolFromSmiles('NCCCCCCCCCCCCCCCC(=O)O'),   # Amino-hexadecanoic acid
-        Chem.MolFromSmiles('c1cccc1'),           # Benzene
+        Chem.MolFromSmiles('c1ccccc1'),           # Benzene
        ]
 
 for mol in mols:
