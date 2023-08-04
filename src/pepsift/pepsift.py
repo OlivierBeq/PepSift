@@ -77,10 +77,7 @@ class PepSift:
                 prod.UpdatePropertyCache()
                 _ = Chem.GetSymmSSSR(prod)
             mol = AllChem.CombineMols(*prods)
-            try:
-                Chem.SanitizeMol(mol)
-            except:
-                print(Chem.MolToSmiles(mol))
+            Chem.SanitizeMol(mol)
         return mol
 
     @classmethod

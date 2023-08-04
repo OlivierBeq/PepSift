@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Constants for unit tests."""
+import os.path
 
 from rdkit import Chem
 from rdkit.Chem.SaltRemover import SaltRemover
@@ -155,3 +156,9 @@ ADDITIONAL_AA = {
     "(S)-4,4,5,5,5-pentafluoronorvaline": Chem.MolFromSmiles("FC(C[C@H](N)C(=O)O)(C(F)(F)F)F"),
     "(3R)-1,4-thiazinane-3-carboxylic acid": Chem.MolFromSmiles("S1C[C@H](NCC1)C(=O)O"),
 }
+
+# Pat Walters's HIV molecule list from https://github.com/PatWalters/rd_filters/
+ADDITIONAL_MOLECULES = [mol for mol in Chem.SmilesMolSupplier(os.path.abspath(os.path.join(__file__,
+                                                                                           os.pardir,
+                                                                                        './HIV.smi')))
+                       if mol is not None]

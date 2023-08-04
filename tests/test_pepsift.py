@@ -192,3 +192,7 @@ class TestPepSift(unittest.TestCase):
             print(aa_name)
             self.assertTrue(any([PepSift(level).is_peptide(aa)
                                  for level in SiftLevel]))
+
+    def test_no_errors(self):
+        for mol in ADDITIONAL_MOLECULES:
+            [self.assertIsInstance(PepSift(level).is_peptide(mol), bool) for level in SiftLevel]
