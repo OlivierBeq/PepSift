@@ -77,7 +77,10 @@ class PepSift:
                 prod.UpdatePropertyCache()
                 _ = Chem.GetSymmSSSR(prod)
             mol = AllChem.CombineMols(*prods)
-            Chem.SanitizeMol(mol)
+            try:
+                Chem.SanitizeMol(mol)
+            except:
+                print(Chem.MolToSmiles(mol))
         return mol
 
     @classmethod
@@ -98,7 +101,10 @@ class PepSift:
                 atom = mol.GetAtomWithIdx(at_idx)
                 chg = atom.GetFormalCharge()
                 hcount = atom.GetTotalNumHs()
-                atom.SetFormalCharge(0)
+                if atom.GetSymbol() in ['B', 'H']:
+                    continue
+                else:
+                    atom.SetFormalCharge(0)
                 atom.SetNumExplicitHs(hcount - chg)
                 atom.UpdatePropertyCache()
         return mol
@@ -116,6 +122,7 @@ class PepSift:
         # Copy & uncharge molecule
         mol = Chem.Mol(mol)
         mol = cls._neutralize(mol)
+        Chem.Kekulize(mol, clearAromaticFlags=True)
         # Split peptide bonds
         mol = cls._split_along_peptide_bond(mol)
         # Get natural amino acid
@@ -132,7 +139,9 @@ class PepSift:
             mol = Chem.RWMol(mol)
             for idx in matches:
                 mol.RemoveAtom(idx)
+                Chem.Kekulize(mol)
             mol = Chem.Mol(mol)
+        Chem.Kekulize(mol, clearAromaticFlags=True)
         # Remove isolated hydrogens
         params = Chem.RemoveHsParameters()
         params.removeDegreeZero = True
@@ -158,6 +167,7 @@ class PepSift:
         block = BlockLogs()
         # Copy molecule
         mol = Chem.Mol(mol)
+        Chem.Kekulize(mol, clearAromaticFlags=True)
         mol = Chem.AddHs(mol)
         # Sanitize mol
         mol.UpdatePropertyCache()
@@ -180,7 +190,9 @@ class PepSift:
         mol = Chem.RWMol(mol)
         for idx in matches:
             mol.RemoveAtom(idx)
+            Chem.Kekulize(mol, clearAromaticFlags=True)
         mol = Chem.Mol(mol)
+        Chem.Kekulize(mol, clearAromaticFlags=True)
         # Remove isolated hydrogens
         params = Chem.RemoveHsParameters()
         params.removeDegreeZero = True
@@ -206,6 +218,7 @@ class PepSift:
         block = BlockLogs()
         # Copy & uncharge molecule
         mol = Chem.Mol(mol)
+        Chem.Kekulize(mol, clearAromaticFlags=True)
         mol = cls._neutralize(mol)
         # Split peptide bonds
         mol = cls._split_along_peptide_bond(mol)
@@ -227,7 +240,9 @@ class PepSift:
             mol = Chem.RWMol(mol)
             for idx in matches:
                 mol.RemoveAtom(idx)
+                Chem.Kekulize(mol, clearAromaticFlags=True)
             mol = Chem.Mol(mol)
+        Chem.Kekulize(mol, clearAromaticFlags=True)
         # Remove isolated hydrogens
         params = Chem.RemoveHsParameters()
         params.removeDegreeZero = True
